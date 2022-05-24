@@ -58,15 +58,20 @@ cfg = update_config(opt.cfg)
 cfg['FILE_NAME'] = cfg_file_name
 cfg.TRAIN.DPG_STEP = [i - cfg.TRAIN.DPG_MILESTONE for i in cfg.TRAIN.DPG_STEP]
 opt.world_size = cfg.TRAIN.WORLD_SIZE
-opt.work_dir = './exp/{}-{}/'.format(opt.exp_id, cfg_file_name)
+# opt.work_dir = './exp/{}-{}/'.format(opt.exp_id, cfg_file_name)
+opt.work_dir = r".\exp\{}-{}\ ".format(opt.exp_id, cfg_file_name)
 opt.gpus = [i for i in range(torch.cuda.device_count())]
 opt.device = torch.device("cuda:" + str(opt.gpus[0]) if opt.gpus[0] >= 0 else "cpu")
 
-if not os.path.exists("./exp/{}-{}".format(opt.exp_id, cfg_file_name)):
-    os.makedirs("./exp/{}-{}".format(opt.exp_id, cfg_file_name))
+# if not os.path.exists("./exp/{}-{}".format(opt.exp_id, cfg_file_name)):
+if not os.path.exists(r".\exp\{}-{}".format(opt.exp_id, cfg_file_name)):
+    # os.makedirs("./exp/{}-{}".format(opt.exp_id, cfg_file_name))
+    os.makedirs(r".\exp\{}-{}".format(opt.exp_id, cfg_file_name))
 
 filehandler = logging.FileHandler(
-    './exp/{}-{}/training.log'.format(opt.exp_id, cfg_file_name))
+    # './exp/{}-{}/training.log'.format(opt.exp_id, cfg_file_name)
+    r'.\exp\{}-{}\training.log'.format(opt.exp_id, cfg_file_name)
+)
 streamhandler = logging.StreamHandler()
 
 logger = logging.getLogger('')

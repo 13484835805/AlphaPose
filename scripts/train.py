@@ -46,7 +46,6 @@ def train(opt, train_loader, m, criterion, optimizer, writer):
         else:
             labels = labels.cuda()
             label_masks = label_masks.cuda()
-
         output = m(inps)
 
         if cfg.LOSS.get('TYPE') == 'MSELoss':
@@ -276,7 +275,7 @@ def main():
 
     train_dataset = builder.build_dataset(cfg.DATASET.TRAIN, preset_cfg=cfg.DATA_PRESET, train=True)
     train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=cfg.TRAIN.BATCH_SIZE * num_gpu, shuffle=True, num_workers=opt.nThreads)
+        train_dataset, batch_size=cfg.TRAIN.BATCH_SIZE * num_gpu, shuffle=True, num_workers=2)
 
     heatmap_to_coord = get_func_heatmap_to_coord(cfg)
 
@@ -287,7 +286,7 @@ def main():
         current_lr = optimizer.state_dict()['param_groups'][0]['lr']
 
         logger.info(f'############# Starting Epoch {opt.epoch} | LR: {current_lr} #############')
-
+        print(m)
         # Training
         loss, miou = train(opt, train_loader, m, criterion, optimizer, writer)
         logger.epochInfo('Train', opt.epoch, loss, miou)

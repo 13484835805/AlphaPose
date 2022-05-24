@@ -237,7 +237,9 @@ class SimpleTransform(object):
         inp_h, inp_w = input_size
         trans = get_affine_transform(center, scale, r, [inp_w, inp_h])
         img = cv2.warpAffine(src, trans, (int(inp_w), int(inp_h)), flags=cv2.INTER_LINEAR)
-
+        cv2.imshow("wrapaffine",img)
+        cv2.waitKey()
+        cv2.destroyAllWindows()
         # deal with joints visibility
         for i in range(self.num_joints):
             if joints[i, 0, 1] > 0.0:
@@ -257,12 +259,14 @@ class SimpleTransform(object):
             target_inter, target_weight_inter = self._integral_target_generator(joints[-hand_face_num:,:,:], hand_face_num, inp_h, inp_w)
 
         bbox = _center_scale_to_box(center, scale)
-
+        cv2.imshow("im_final",img)
+        cv2.waitKey()
+        cv2.destroyAllWindows()
         img = im_to_torch(img)
         img[0].add_(-0.406)
         img[1].add_(-0.457)
         img[2].add_(-0.480)
-        
+
         if self._loss_type == 'Combined':
         	return img, [torch.from_numpy(target_mse), torch.from_numpy(target_inter)], [torch.from_numpy(target_weight_mse), torch.from_numpy(target_weight_inter)], torch.Tensor(bbox)
         else:

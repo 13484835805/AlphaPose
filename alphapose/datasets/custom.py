@@ -113,6 +113,7 @@ class CustomDataset(data.Dataset):
             img_id = self._items[idx]['id']
         else:
             img_path = self._items[idx]
+            print(img_path)
             img_id = int(os.path.splitext(os.path.basename(img_path))[0])
 
         # load ground truth, including bbox, keypoints, image size
@@ -124,6 +125,7 @@ class CustomDataset(data.Dataset):
         return img, label, label_mask, img_id, bbox
 
     def __len__(self):
+        print(len(self._items))
         return len(self._items)
 
     def _lazy_load_ann_file(self):

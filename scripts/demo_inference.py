@@ -3,6 +3,10 @@ import argparse
 import os
 import platform
 import sys
+
+import cv2
+
+sys.path.append(r"C:\Users\13484\PycharmProjects\AlphaPose")
 import time
 
 import numpy as np
